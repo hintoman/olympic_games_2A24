@@ -1,0 +1,12 @@
+INPUT(
+./debug\amende.o
+./debug\main.o
+./debug\mainwindow.o
+./debug\connection.o
+./debug\plainte.o
+./debug\qcustomplot.o
+./debug\qrc_imge.o
+./debug\qrc_son_test.o
+./debug\moc_mainwindow.o
+./debug\moc_qcustomplot.o
+);

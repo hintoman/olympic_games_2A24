@@ -80,7 +80,6 @@ private slots:
 
     void on_pa_pushButton_106_clicked();
 
-    void on_rechercher_activated(const QString &arg1);
 
     void clockTimer();
 
