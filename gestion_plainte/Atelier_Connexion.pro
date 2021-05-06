@@ -27,19 +27,25 @@ CONFIG += c++11
 
 SOURCES += \
     amende.cpp \
+    fournisseur.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
+    materiel.cpp \
     plainte.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    smtp.cpp
 
 
 HEADERS += \
     amende.h \
+    fournisseur.h \
         mainwindow.h \
     connection.h \
+    materiel.h \
     plainte.h \
-    qcustomplot.h
+    qcustomplot.h \
+    smtp.h
 
 
 FORMS += \

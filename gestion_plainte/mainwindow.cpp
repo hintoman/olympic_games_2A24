@@ -23,6 +23,21 @@
 #include<QFile>
 #include <QPrinter>
 #include <QDate>
+#include "fournisseur.h"
+#include "materiel.h"
+#include "smtp.h"
+#include <QTimer>
+#include <QDateTime>
+#include <QListWidgetItem>
+#include "QSqlRecord"
+
+double firstNum;
+bool userIsTypingSecondNum = false;
+
+
+
+
+
 
 QString id_pl="";
 
@@ -46,6 +61,47 @@ MainWindow::MainWindow(QWidget *parent) :
      connect(qTimer,SIGNAL(timeout()),this,SLOT(clockTimer()));
      qTimer->start(100);
 
+
+     //firas
+     ui->le_id_2->setValidator(new QIntValidator(0, 99999, this));
+     ui->tab_fourniseur_2->setModel(F.afficher());
+     ui->le_idm_2->setValidator(new QIntValidator(0, 99999, this));
+     ui->tab_materiel_2->setModel(M.afficher());
+     makePolt1();
+
+     connect(ui->sendBtn, SIGNAL(clicked()),this, SLOT(sendMail()));
+       connect(ui->exitBtn, SIGNAL(clicked()),this, SLOT(close()));
+       //wa9et
+       QTimer::singleShot(10 * 1000, this, SLOT(showInformation()));
+
+       //Time
+       QTimer *timer=new QTimer(this);
+       connect(timer, SIGNAL(timeout()), this, SLOT(showTime()));
+       timer->start();
+
+       connect(ui->pushButton_0,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButt1,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButt2,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButt3,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButt4,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButt5,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButt6,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButt7,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButt8,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButt9,SIGNAL(released()),this,SLOT(digit_pressed()));
+       connect(ui->pushButton_signal,SIGNAL(released()),this,SLOT(unary_operation_pressed()));
+       connect(ui->pushButton_porcentage,SIGNAL(released()),this,SLOT(unary_operation_pressed()));
+       connect(ui->pushButton_plus,SIGNAL(released()),this,SLOT(binary_operation_pressed()));
+       connect(ui->pushButton_minus,SIGNAL(released()),this,SLOT(binary_operation_pressed()));
+       connect(ui->pushButton_division,SIGNAL(released()),this,SLOT(binary_operation_pressed()));
+       connect(ui->pushButton_times,SIGNAL(released()),this,SLOT(binary_operation_pressed()));
+
+       ui->pushButton_plus->setCheckable(true);
+       ui->pushButton_minus->setCheckable(true);
+       ui->pushButton_division->setCheckable(true);
+       ui->pushButton_times->setCheckable(true);
+
+       //firas
 
 }
 
@@ -1022,3 +1078,699 @@ void MainWindow::on_menu_pushButton_48_clicked()
     ui->stackedWidget->setCurrentIndex(0);
 
 }
+
+
+
+//firas
+void MainWindow::on_pb_ajouter1_clicked()
+{son->play();
+    int  id=ui->le_id_2->text().toInt();
+    QString nom=ui->le_nom_2->text();
+    QString prenom=ui->le_prenom->text();
+    int  tel=ui->le_tel->text().toInt();
+
+    Fournisseur E(id,nom,prenom,tel);
+
+    bool test=E.ajouter();
+    if(test){
+        QMessageBox::information(nullptr, QObject::tr("OK"),
+                    QObject::tr("ajout succesful.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+          ui->tab_fourniseur_2->setModel(F.afficher());
+    }
+    else{
+
+        QMessageBox::critical(nullptr, QObject::tr("NOT OK"),
+                    QObject::tr("ajout failed.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+    }
+}
+
+void MainWindow::on_pb_supprimer_2_clicked()
+{son->play();
+Fournisseur F1;
+F1.setid(ui->le_id_supp_2->text().toInt());
+bool test=F1.supprimer(F1.getid());
+if(test){
+    QMessageBox::information(nullptr, QObject::tr("OK"),
+                QObject::tr("supprimer succesful.\n"
+                            "Click Cancel to exit."), QMessageBox::Cancel);
+    ui->tab_fourniseur_2->setModel(F.afficher());
+}
+else{
+
+    QMessageBox::critical(nullptr, QObject::tr("NOT OK"),
+                QObject::tr("supprimer failed.\n"
+                            "Click Cancel to exit."), QMessageBox::Cancel);
+}
+}
+
+void MainWindow::on_pb_ajouter2_2_clicked()
+{son->play();
+    int  idm=ui->le_idm_2->text().toInt();
+    QString nom=ui->le_nom1->text();
+    QString type1=ui->le_type_2->text();
+    int  prix1=ui->le_prix_2->text().toInt();
+
+    Materiel M(idm,nom,type1,prix1);
+
+    bool test=M.ajouter();
+    if(test){
+        QMessageBox::information(nullptr, QObject::tr("OK"),
+                    QObject::tr("ajout succesful.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+          ui->tab_materiel_2->setModel(M.afficher());
+    }
+    else{
+
+        QMessageBox::critical(nullptr, QObject::tr("NOT OK"),
+                    QObject::tr("ajout failed.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+    }
+}
+
+void MainWindow::on_pb_supprimer_3_clicked()
+{son->play();
+    Materiel M1;
+    M1.setidm(ui->le_idm_supp_2->text().toInt());
+    bool test=M1.supprimer(M1.getidm());
+    if(test){
+        QMessageBox::information(nullptr, QObject::tr("OK"),
+                    QObject::tr("supprimer succesful.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+        ui->tab_materiel_2->setModel(M.afficher());
+    }
+    else{
+
+        QMessageBox::critical(nullptr, QObject::tr("NOT OK"),
+                    QObject::tr("supprimer failed.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+    }
+}
+
+void MainWindow::on_pb_modifier1_clicked()
+{son->play();
+    int row=ui->tab_fourniseur_2->selectionModel()->currentIndex().row();
+    QString id=ui->tab_fourniseur_2->model()->index(row,0).data().toString(); //row = ligne / 0 : colonne
+    QString nom=ui->tab_fourniseur_2->model()->index(row,1).data().toString();
+    QString prenom=ui->tab_fourniseur_2->model()->index(row,2).data().toString();
+
+    QString tel=ui->tab_fourniseur_2->model()->index(row,3).data().toString();
+
+    if(row==-1)
+    {
+        QMessageBox ::information(nullptr,QObject::tr("modifier un fournisseur"),
+                                          QObject::tr("aucune selection.\n"
+                                              "click ok to exit"),QMessageBox::Ok);
+    }
+    else
+    {
+        ui->le_id_2->setText(id);
+        ui->le_nom_2->setText(nom);
+        ui->le_prenom->setText(prenom);
+      ui->le_tel->setText(tel);
+    }
+}
+
+void MainWindow::on_pb_recuperer_1_clicked()
+{son->play();
+    int id = ui->le_id_2->text().toInt();
+    QString nom = ui->le_nom_2->text();
+    QString prenom= ui->le_prenom->text();
+    int tel= ui->le_tel->text().toInt();
+
+    Fournisseur F(id,nom,prenom,tel);
+    bool test =F.modifier(id,nom,prenom,tel);
+
+    if(test)
+    {ui->tab_fourniseur_2->setModel(F.afficher());
+        QMessageBox::information(nullptr, QObject::tr("modifier un fournisseur"),
+                                 QObject::tr("fournisseur  modifié.\n"
+                                             "Click Cancel to exit."), QMessageBox::Cancel);
+
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("Modifier un fournisseur"),
+                              QObject::tr("Erreur !.\n"
+                                          "Click Cancel to exit."), QMessageBox::Cancel);
+}
+
+void MainWindow::on_pushButton_6_recup_clicked()
+{son->play();
+    int row=ui->tab_materiel_2->selectionModel()->currentIndex().row();
+    QString idm=ui->tab_materiel_2->model()->index(row,0).data().toString(); //row = ligne / 0 : colonne
+    QString nom=ui->tab_materiel_2->model()->index(row,1).data().toString();
+    QString type1=ui->tab_materiel_2->model()->index(row,2).data().toString();
+
+    QString prix1=ui->tab_materiel_2->model()->index(row,3).data().toString();
+
+    if(row==-1)
+    {
+        QMessageBox ::information(nullptr,QObject::tr("modifier materiel"),
+                                          QObject::tr("aucune selection.\n"
+                                              "click ok to exit"),QMessageBox::Ok);
+    }
+    else
+    {
+        ui->le_idm_2->setText(idm);
+        ui->le_nom1->setText(nom);
+        ui->le_type_2->setText(type1);
+      ui->le_prix_2->setText(prix1);
+    }
+}
+
+void MainWindow::on_pushButton_7_recup_clicked()
+{son->play();
+    int idm = ui->le_idm_2->text().toInt();
+    QString nom = ui->le_nom1->text();
+    QString type1= ui->le_type_2->text();
+    int prix1= ui->le_prix_2->text().toInt();
+
+    Materiel M(idm,nom,type1,prix1);
+    bool test =M.modifier(idm,nom,type1,prix1);
+
+    if(test)
+    {ui->tab_materiel_2->setModel(M.afficher());
+        QMessageBox::information(nullptr, QObject::tr("modifier materiel"),
+                                 QObject::tr("materiel  modifié.\n"
+                                             "Click Cancel to exit."), QMessageBox::Cancel);
+
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("Modifier materiel"),
+                              QObject::tr("Erreur !.\n"
+                                          "Click Cancel to exit."), QMessageBox::Cancel);
+
+}
+
+
+
+void MainWindow::on_recherche_2_clicked()
+{son->play();
+    QSqlQueryModel *modal=new QSqlQueryModel();
+                    QSqlQuery request;
+                   QString type=ui->rechercher_3->currentText();
+                   QString val=ui->le_recherche_2->text();
+                   val="%"+val+"%";
+                   if (type=="id"){
+                       request.prepare("SELECT * FROM fourniseur WHERE id LIKE:val ");
+                   }else if (type=="nom"){
+                       request.prepare("SELECT * FROM fourniseur WHERE nom LIKE:val");
+                   }else if (type=="prenom"){
+                       request.prepare("SELECT * FROM fourniseur WHERE prenom LIKE:val");
+                   }else if (type=="tel"){
+                       request.prepare("SELECT * FROM fourniseur WHERE tel LIKE:val");
+                   }
+                   request.bindValue(":val",val);
+                   request.exec();
+                   modal->setQuery(request);
+                   ui->tab_fourniseur_2->setModel(modal);
+
+}
+
+
+
+
+void MainWindow::on_trie_3_activated()
+{son->play();
+    Fournisseur F;
+    QString choix= ui->trie_3->currentText();
+    ui->tab_fourniseur_2->setModel(F.Trier(choix));
+}
+
+void MainWindow::on_trie_4_activated()
+{son->play();
+    Materiel M;
+    QString choix= ui->trie_4->currentText();
+    ui->tab_materiel_2->setModel(M.Trier(choix));
+}
+
+void MainWindow::on_recherche1_2_clicked()
+{son->play();
+    QSqlQueryModel *modal=new QSqlQueryModel();
+                    QSqlQuery request;
+                   QString type=ui->rechercher_4->currentText();
+                   QString val=ui->le_recherche1_2->text();
+                   val="%"+val+"%";
+                   if (type=="idm"){
+                       request.prepare("SELECT * FROM materiel WHERE idm LIKE:val ");
+                   }else if (type=="nom"){
+                       request.prepare("SELECT * FROM materiel WHERE nom LIKE:val");
+                   }else if (type=="type1"){
+                       request.prepare("SELECT * FROM materiel WHERE type LIKE:val");
+                   }else if (type=="prix1"){
+                       request.prepare("SELECT * FROM materiel WHERE prix LIKE:val");
+                   }
+                   request.bindValue(":val",val);
+                   request.exec();
+                   modal->setQuery(request);
+                   ui->tab_materiel_2->setModel(modal);
+
+}
+void MainWindow::sendMail()
+{son->play();
+    Smtp* smtp = new Smtp(ui->uname->text(), ui->paswd->text(), ui->server->text(), ui->port->text().toInt());
+    connect(smtp, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+
+
+    smtp->sendMail(ui->uname->text(), ui->rcpt->text() , ui->subject->text(),ui->msg->toPlainText());
+}
+
+void MainWindow::mailSent(QString status)
+{son->play();
+    if(status == "Message sent")
+        QMessageBox::warning( 0, tr( "Qt Simple SMTP client" ), tr( "Message sent!\n\n" ) );
+}
+
+//Statistique
+void MainWindow::makePolt1()
+{
+
+       QLinearGradient gradient(0, 0, 0, 400);
+       gradient.setColorAt(0, QColor(90, 90, 90));
+       gradient.setColorAt(0.38, QColor(105, 105, 105));
+       gradient.setColorAt(1, QColor(70, 70, 70));
+       ui->customPlot_6->setBackground(QBrush(gradient));
+
+
+       QCPBars *regen = new QCPBars(ui->customPlot_6->xAxis,ui-> customPlot_6->yAxis);
+
+       regen->setAntialiased(false);
+
+       regen->setStackingGap(1);
+
+
+
+
+       regen->setName("Nombre de materiel  par rapport a la type");
+       regen->setPen(QPen(QColor(0, 168, 140).lighter(130)));
+       regen->setBrush(QColor(0, 168, 140));
+
+       QVector<double> ticks;
+       QVector<QString> labels;
+
+
+
+
+
+
+       ticks << 1<<2<<3;
+
+      labels <<"electronique"<<"chaise-table"<<"Autres";
+       QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+       textTicker->addTicks(ticks, labels);
+       ui->customPlot_6->xAxis->setTicker(textTicker);
+       ui->customPlot_6->xAxis->setTickLabelRotation(60);
+       ui->customPlot_6->xAxis->setSubTicks(false);
+       ui->customPlot_6->xAxis->setTickLength(0, 3);
+       ui->customPlot_6->xAxis->setRange(0, 8);
+       ui->customPlot_6->xAxis->setBasePen(QPen(Qt::white));
+       ui->customPlot_6->xAxis->setTickPen(QPen(Qt::white));
+       ui->customPlot_6->xAxis->grid()->setVisible(true);
+       ui->customPlot_6->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+       ui->customPlot_6->xAxis->setTickLabelColor(Qt::white);
+       ui->customPlot_6->xAxis->setLabelColor(Qt::white);
+
+
+       ui->customPlot_6->yAxis->setRange(0,10);
+       ui->customPlot_6->yAxis->setPadding(10); // a bit more space to the left border
+       ui->customPlot_6->yAxis->setLabel("Nombre de materiels");
+       ui->customPlot_6->yAxis->setBasePen(QPen(Qt::white));
+       ui->customPlot_6->yAxis->setTickPen(QPen(Qt::white));
+       ui->customPlot_6->yAxis->setSubTickPen(QPen(Qt::white));
+       ui->customPlot_6->yAxis->grid()->setSubGridVisible(true);
+       ui->customPlot_6->yAxis->setTickLabelColor(Qt::white);
+       ui->customPlot_6->yAxis->setLabelColor(Qt::white);
+       ui->customPlot_6->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
+       ui->customPlot_6->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+
+
+       QVector<double> regenData;
+       int n1=0;
+       int n2=0;
+               int n3=0;
+
+           QSqlQuery q1("select count(*) from materiel where type='electronique'");
+           while (q1.next())
+           {
+               n1 = q1.value(0).toInt();
+               qDebug()<<"Nombre materiels : "<<n1<<endl;
+           }
+
+           QSqlQuery q2("select count(*) from materiel where type='chaisetable'");
+           while (q2.next())
+           {
+               n2 = q2.value(0).toInt();
+               qDebug()<<"Nombre materiels : "<<n2<<endl;
+           }
+
+           QSqlQuery q3("select count(*) from materiel where type='Autres'");
+           while (q3.next())
+           {
+                n3 = q3.value(0).toInt();
+                qDebug()<<"Nombre materiels : "<<n3<<endl;
+           }
+
+
+
+
+       regenData << n1<<n2<<n3;
+       regen->setData(ticks, regenData);
+
+
+       ui->customPlot_6->legend->setVisible(true);
+       ui->customPlot_6->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
+       ui->customPlot_6->legend->setBrush(QColor(255, 255, 255, 100));
+       ui->customPlot_6->legend->setBorderPen(Qt::NoPen);
+       QFont legendFont = font();
+       legendFont.setPointSize(10);
+       ui->customPlot_6->legend->setFont(legendFont);
+       ui->customPlot_6->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
+
+}
+void MainWindow::showTime()
+{
+    QTime time=QTime::currentTime();
+    QString time_text=time.toString("hh : mm : ss");
+    ui->time->setText(time_text);
+
+
+
+    QDateTime dateTime = QDateTime::currentDateTime();
+    QString datetimetext = dateTime.toString("d / M / yyyy");
+    ui->date->setText(datetimetext);
+
+
+}
+
+void MainWindow::on_pushButton_4_fm_clicked()
+{son->play();
+    ui->stackedWidget->setCurrentIndex(6);
+}
+
+void MainWindow::on_pushButton_5_fm_clicked()
+{son->play();
+    ui->stackedWidget->setCurrentIndex(7);
+
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{son->play();
+    ui->stackedWidget->setCurrentIndex(5);
+
+}
+
+void MainWindow::on_m_pushButton_retour_clicked()
+{son->play();
+    ui->stackedWidget->setCurrentIndex(5);
+
+}
+
+void MainWindow::on_pushButton_mailing_f_clicked()
+{son->play();
+    ui->stackedWidget->setCurrentIndex(8);
+
+}
+
+void MainWindow::on_m_pushButton_statistique_clicked()
+{son->play();
+     ui->stackedWidget->setCurrentIndex(9);
+}
+
+void MainWindow::on_f_pushButton_retour_mailing_clicked()
+{son->play();
+    ui->stackedWidget->setCurrentIndex(6);
+}
+
+void MainWindow::on_m_pushButton_retour_stat_4_clicked()
+{son->play();
+    ui->stackedWidget->setCurrentIndex(7);
+}
+
+
+void MainWindow::on_menu_pushButton_49_clicked()
+{son->play();
+    ui->stackedWidget->setCurrentIndex(5);
+
+}
+
+
+
+
+
+
+
+void MainWindow::on_pb_imprimer_clicked()
+{son->play();
+    QPrinter printer;
+
+              printer.setPrinterName("desiered printer name");
+
+            QPrintDialog dialog(&printer,this);
+
+              if(dialog.exec()== QDialog::Rejected)
+
+                  return;
+}
+
+void MainWindow::on_pb_pdf_clicked()
+{son->play();
+    QString strStream;
+          QTextStream out(&strStream);
+
+                     const int rowCount = ui->tab_fourniseur_2->model()->rowCount();
+                     const int columnCount = ui->tab_fourniseur_2->model()->columnCount();
+
+                     out <<  "<html>\n"
+                           "<head>\n"
+                            "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                           <<  QString("<title>%1</title>\n").arg("strTitle")
+                          <<  "</head>\n"
+                            "<body bgcolor=#ffffff link=#5000A0>\n"
+
+                          //     "<align='right'> " << datefich << "</align>"
+                              "<center> <H1>Liste des Fournisseurs </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
+
+                          // headers
+                             out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
+                        for (int column = 0; column < columnCount; column++)
+                               if (!ui->tab_fourniseur_2->isColumnHidden(column))
+                             out << QString("<th>%1</th>").arg(ui->tab_fourniseur_2->model()->headerData(column, Qt::Horizontal).toString());
+                         out << "</tr></thead>\n";
+
+                         // data table
+                             for (int row = 0; row < rowCount; row++) {
+                               out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
+                                 for (int column = 0; column < columnCount; column++) {
+                                 if (!ui->tab_fourniseur_2->isColumnHidden(column)) {
+                                QString data = ui->tab_fourniseur_2->model()->data(ui->tab_fourniseur_2->model()->index(row, column)).toString().simplified();
+                                    out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                                         }
+                                     }
+                                     out << "</tr>\n";
+                                  }
+                                 out <<  "</table> </center>\n"
+                                      "</body>\n"
+                                    "</html>\n";
+
+                            QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
+                              if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+                             QPrinter printer (QPrinter::PrinterResolution);
+                              printer.setOutputFormat(QPrinter::PdfFormat);
+                             printer.setPaperSize(QPrinter::A4);
+                            printer.setOutputFileName(fileName);
+
+                             QTextDocument doc;
+                              doc.setHtml(strStream);
+                              doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+                              doc.print(&printer);
+    }
+
+
+void MainWindow::on_pb_pdf_2_clicked()
+{son->play();
+    QString strStream;
+          QTextStream out(&strStream);
+
+                     const int rowCount = ui->tab_materiel_2->model()->rowCount();
+                     const int columnCount = ui->tab_materiel_2->model()->columnCount();
+
+                     out <<  "<html>\n"
+                           "<head>\n"
+                            "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                           <<  QString("<title>%1</title>\n").arg("strTitle")
+                          <<  "</head>\n"
+                            "<body bgcolor=#ffffff link=#5000A0>\n"
+
+                          //     "<align='right'> " << datefich << "</align>"
+                              "<center> <H1>Liste des Materiels </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
+
+                          // headers
+                             out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
+                        for (int column = 0; column < columnCount; column++)
+                               if (!ui->tab_materiel_2->isColumnHidden(column))
+                             out << QString("<th>%1</th>").arg(ui->tab_materiel_2->model()->headerData(column, Qt::Horizontal).toString());
+                         out << "</tr></thead>\n";
+
+                         // data table
+                             for (int row = 0; row < rowCount; row++) {
+                               out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
+                                 for (int column = 0; column < columnCount; column++) {
+                                 if (!ui->tab_materiel_2->isColumnHidden(column)) {
+                                QString data = ui->tab_materiel_2->model()->data(ui->tab_materiel_2->model()->index(row, column)).toString().simplified();
+                                    out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                                         }
+                                     }
+                                     out << "</tr>\n";
+                                  }
+                                 out <<  "</table> </center>\n"
+                                      "</body>\n"
+                                    "</html>\n";
+
+                            QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
+                              if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+                             QPrinter printer (QPrinter::PrinterResolution);
+                              printer.setOutputFormat(QPrinter::PdfFormat);
+                             printer.setPaperSize(QPrinter::A4);
+                            printer.setOutputFileName(fileName);
+
+                             QTextDocument doc;
+                              doc.setHtml(strStream);
+                              doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+                              doc.print(&printer);
+}
+
+void MainWindow::on_pb_imprimer_2_clicked()
+{son->play();
+    QPrinter printer;
+
+              printer.setPrinterName("desiered printer name");
+
+            QPrintDialog dialog(&printer,this);
+
+              if(dialog.exec()== QDialog::Rejected)
+
+                  return;
+}
+
+void MainWindow::digit_pressed()
+{
+    QPushButton * button = (QPushButton*)sender();
+    QString newLabel;
+
+    double labelNumber;
+
+    if((ui->pushButton_plus->isChecked()||ui->pushButton_minus->isChecked()||ui->pushButton_division->isChecked()||ui->pushButton_times->isChecked()) && (!userIsTypingSecondNum))
+    {
+        labelNumber = (button->text()).toDouble();
+        userIsTypingSecondNum = true;
+        newLabel = QString::number(labelNumber,'g',15);
+    }
+    //new label number
+    else
+    {
+        if(ui->label_27->text().contains(".") && button->text() == "0")
+        {
+            newLabel = ui->label_27->text() + button->text();
+        }
+        else
+        {
+            labelNumber = (ui->label_27->text() + button->text()).toDouble();
+            newLabel = QString::number(labelNumber,'g',15);
+        }
+    }
+
+    //label of the ui
+    ui->label_27->setText(newLabel);
+}
+
+void MainWindow::on_pushButton_point_released()
+{
+    ui->label_27->setText(ui->label_27->text()+("."));
+}
+
+void MainWindow::unary_operation_pressed()
+{
+    QPushButton * button = (QPushButton *)sender();
+    double labelNumber;
+    QString newLabel;
+    if(button->text() == "+/-")
+    {
+        labelNumber = ui->label_27->text().toDouble();
+        labelNumber = labelNumber * -1;
+        newLabel = QString::number(labelNumber,'g',15);
+        ui->label_27->setText(newLabel);
+    }
+    if(button->text() == "%")
+    {
+        labelNumber = ui->label_27->text().toDouble();
+        labelNumber = labelNumber * 0.01;
+        newLabel = QString::number(labelNumber,'g',15);
+        ui->label_27->setText(newLabel);
+    }
+}
+
+void MainWindow::on_pushButton_C_released()
+{
+    ui->pushButton_plus->setChecked(false);
+    ui->pushButton_minus->setChecked(false);
+    ui->pushButton_division->setChecked(false);
+    ui->pushButton_times->setChecked(false);
+
+    userIsTypingSecondNum = false;
+
+    ui->label_27->setText("0");
+}
+
+void MainWindow::on_pushButton_equal_released()
+{
+    double labelNumber,secondNum;
+    QString newLabel;
+
+    secondNum = ui->label_27->text().toDouble();
+
+    if(ui->pushButton_plus->isChecked())
+    {
+        labelNumber = firstNum + secondNum;
+        newLabel = QString::number(labelNumber,'g',15);
+        ui->label_27->setText(newLabel);
+        ui->pushButton_plus->setChecked(false);
+    }
+    else if(ui->pushButton_minus->isChecked())
+    {
+        labelNumber = firstNum - secondNum;
+        newLabel = QString::number(labelNumber,'g',15);
+        ui->label_27->setText(newLabel);
+        ui->pushButton_minus->setChecked(false);
+    }
+    else if(ui->pushButton_division->isChecked())
+    {
+        labelNumber = firstNum / secondNum;
+        newLabel = QString::number(labelNumber,'g',15);
+        ui->label_27->setText(newLabel);
+        ui->pushButton_division->setChecked(false);
+    }
+    else if(ui->pushButton_times->isChecked())
+    {
+        labelNumber = firstNum * secondNum;
+        newLabel = QString::number(labelNumber,'g',15);
+        ui->label_27->setText(newLabel);
+        ui->pushButton_times->setChecked(false);
+    }
+
+    userIsTypingSecondNum = false;
+}
+
+void MainWindow::binary_operation_pressed()
+{
+    QPushButton * button = (QPushButton *)sender();
+
+    firstNum = ui->label_27->text().toDouble();
+    button->setChecked(true);
+}
+
+
+//firas
