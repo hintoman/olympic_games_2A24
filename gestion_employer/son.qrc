@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/ClickOn1.wav</file>
+        <file>img/butretour.png</file>
+        <file>img/buttstats.jpg</file>
+        <file>img/butttexcel.png</file>
+        <file>img/stat.png</file>
+        <file>img/pdf.png</file>
+        <file>img/Metro-Tools-Blue-256.png</file>
+        <file>img/satistique.png</file>
+        <file>img/Metro-Save-Blue-256.png</file>
+        <file>img/Metro-Sd-Blue.ico</file>
+        <file>img/Metro-Search-Blue-256.png</file>
+        <file>img/logosmartpolice.png</file>
+        <file>img/mailbouton.png</file>
+    </qresource>
+</RCC>
