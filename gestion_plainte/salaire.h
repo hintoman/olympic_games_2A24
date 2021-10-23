@@ -1,16 +1,16 @@
-#ifndef AMENDE_H
-#define AMENDE_H
+#ifndef salaire_H
+#define salaire_H
 
 
 #include <QString>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 
-class Amende
+class salaire
 {
 public:
-    Amende();
-    Amende(int,QString,QString,int);
+    salaire();
+    salaire(int,QString,QString,int);
     int getid_am();
     QString getstatus();
     QString gettype();
@@ -33,4 +33,4 @@ private:
     QString status,type;
 };
 
-#endif // AMENDE_H
+#endif // salaire_H

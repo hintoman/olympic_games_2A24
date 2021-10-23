@@ -1,4 +1,4 @@
-#include "amende.h"
+#include "salaire.h"
 
 #include <QSqlQuery>
 #include <QtDebug>

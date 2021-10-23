@@ -2,12 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <plainte.h>
-#include <amende.h>
+#include <mailing.h>
+#include <salaire.h>
 #include <QSound>
 #include <QTimer>
-#include <fournisseur.h>
-#include <materiel.h>
+#include <employe.h>
+#include <planning.h>
 #include <QDateTime>
 #include <QListWidgetItem>
 
@@ -162,10 +162,10 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    Amende A;
-    Plainte P;
-    Fournisseur F;
-    Materiel M;
+    salaire A;
+    mailing P;
+    employe F;
+    planning M;
     QSound *son;
     QTimer *qTimer;
 

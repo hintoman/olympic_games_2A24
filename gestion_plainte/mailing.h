@@ -1,5 +1,5 @@
-#ifndef PLAINTE_H
-#define PLAINTE_H
+#ifndef mailing_H
+#define mailing_H
 
 #include <QString>
 #include <QSqlQuery>
@@ -7,11 +7,11 @@
 #include <QDate>
 
 
-class Plainte
+class mailing
 {
 public:
-    Plainte();
-    Plainte(int,QString,QString,int,QDate);
+    mailing();
+    mailing(int,QString,QString,int,QDate);
     int getid_pl();
     QString gettype();
     QString getnom_accuse();
@@ -35,4 +35,4 @@ private:
     QDate date_debut;
 };
 
-#endif // PLAINTE_H
+#endif // mailing_H

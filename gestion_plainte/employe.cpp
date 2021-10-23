@@ -1,4 +1,4 @@
-#include "fournisseur.h"
+#include "employe.h"
 #include <QSqlQuery>
 #include <QtDebug>
 #include <QObject>

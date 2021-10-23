@@ -26,25 +26,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-    amende.cpp \
-    fournisseur.cpp \
+    employe.cpp \
+    mailing.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
-    materiel.cpp \
-    plainte.cpp \
+    planning.cpp \
     qcustomplot.cpp \
+    salaire.cpp \
     smtp.cpp
 
 
 HEADERS += \
-    amende.h \
-    fournisseur.h \
+    employe.h \
+    mailing.h \
         mainwindow.h \
     connection.h \
-    materiel.h \
-    plainte.h \
+    planning.h \
     qcustomplot.h \
+    salaire.h \
     smtp.h
 
 

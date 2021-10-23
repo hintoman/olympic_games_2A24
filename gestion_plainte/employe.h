@@ -1,15 +1,15 @@
-#ifndef FOURNISSEUR_H
-#define FOURNISSEUR_H
+#ifndef employe_H
+#define employe_H
 
 #include <QString>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 
-class Fournisseur
+class employe
 {
 public:
-    Fournisseur();
-    Fournisseur(int,QString,QString,int);
+    employe();
+    employe(int,QString,QString,int);
     int getid();
     QString getnom();
     QString getprenom();
@@ -29,4 +29,4 @@ private:
     QString nom,prenom;
 };
 
-#endif // FOURNISSEUR_H
+#endif // employe_H

@@ -1,4 +1,4 @@
-#include "materiel.h"
+#include "planning.h"
 
 #include <QSqlQuery>
 #include <QtDebug>

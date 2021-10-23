@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "plainte.h"
-#include "amende.h"
+#include "mailing.h"
+#include "salaire.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QIntValidator>
@@ -23,8 +23,8 @@
 #include<QFile>
 #include <QPrinter>
 #include <QDate>
-#include "fournisseur.h"
-#include "materiel.h"
+#include "employe.h"
+#include "planning.h"
 #include "smtp.h"
 #include <QTimer>
 #include <QDateTime>

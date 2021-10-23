@@ -1,4 +1,4 @@
-#include "plainte.h"
+#include "mailing.h"
 #include <QSqlQuery>
 #include <QtDebug>
 #include <QObject>
