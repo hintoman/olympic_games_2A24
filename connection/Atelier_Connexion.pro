@@ -4,8 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network multimedia
-QT += printsupport
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,27 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-    employe.cpp \
-    mailing.cpp \
         main.cpp \
         mainwindow.cpp \
-    connection.cpp \
-    planning.cpp \
-    qcustomplot.cpp \
-    salaire.cpp \
-    smtp.cpp
-
+    connection.cpp
 
 HEADERS += \
-    employe.h \
-    mailing.h \
         mainwindow.h \
-    connection.h \
-    planning.h \
-    qcustomplot.h \
-    salaire.h \
-    smtp.h
-
+    connection.h
 
 FORMS += \
         mainwindow.ui
@@ -55,10 +40,3 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-
-
-RESOURCES += \
-    son.qrc
-
