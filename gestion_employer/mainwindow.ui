@@ -2178,22 +2178,6 @@ transition: all 0.4s ease 0s;
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
-      <property name="geometry">
-       <rect>
-        <x>980</x>
-        <y>630</y>
-        <width>71</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border-image:url(:/img/img/butretour.png)</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
      <widget class="QTextEdit" name="textEdit">
       <property name="geometry">
        <rect>
@@ -2227,7 +2211,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="pushButton_6">
       <property name="geometry">
        <rect>
-        <x>390</x>
+        <x>410</x>
         <y>230</y>
         <width>151</width>
         <height>161</height>
@@ -2261,6 +2245,19 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="text">
        <string>planning</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>490</y>
+        <width>331</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
       </property>
      </widget>
     </widget>

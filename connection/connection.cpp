@@ -15,9 +15,6 @@ db.setPassword("yassine");//inserer mot de passe de cet utilisateur
 if (db.open())
 test=true;
 
-
-
-
-
     return  test;
 }
+void Connection ::closeConnection(){db.close();}
