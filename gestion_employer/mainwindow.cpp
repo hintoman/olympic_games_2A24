@@ -46,7 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    QPixmap pix("C:/Users/LENOVO/Desktop/olympic games 2A24/gestion_employer/img/background.jpg");
+    ui->picture->setPixmap(pix);
     makePolt();
     makePol_2();
 
@@ -104,6 +105,9 @@ MainWindow::MainWindow(QWidget *parent) :
        //firas
 
 }
+
+
+
 
 MainWindow::~MainWindow()
 {
