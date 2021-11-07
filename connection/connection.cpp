@@ -17,4 +17,4 @@ test=true;
 
     return  test;
 }
-void Connection ::closeConnection(){db.close();}
+void Connection::closeconnection(){db.close();}
