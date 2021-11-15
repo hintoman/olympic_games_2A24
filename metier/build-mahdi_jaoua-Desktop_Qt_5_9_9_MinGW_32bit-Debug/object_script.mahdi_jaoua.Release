@@ -1,0 +1,14 @@
+INPUT(
+./release\connexion.o
+./release\gestion_mahdi.o
+./release\main.o
+./release\mainwindow.o
+./release\maps.o
+./release\reclamation.o
+./release\smtp.o
+./release\terrain.o
+./release\moc_gestion_mahdi.o
+./release\moc_mainwindow.o
+./release\moc_maps.o
+./release\moc_smtp.o
+);

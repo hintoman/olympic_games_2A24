@@ -1,0 +1,14 @@
+INPUT(
+./debug\connexion.o
+./debug\gestion_mahdi.o
+./debug\main.o
+./debug\mainwindow.o
+./debug\maps.o
+./debug\reclamation.o
+./debug\smtp.o
+./debug\terrain.o
+./debug\moc_gestion_mahdi.o
+./debug\moc_mainwindow.o
+./debug\moc_maps.o
+./debug\moc_smtp.o
+);
