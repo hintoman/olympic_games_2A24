@@ -28,11 +28,13 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
+    qcustomplot.cpp \
     transaction.cpp
 
 HEADERS += \
         mainwindow.h \
     connection.h \
+    qcustomplot.h \
     transaction.h
 
 FORMS += \

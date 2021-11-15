@@ -20,6 +20,19 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+
+    void on_stat_clicked();
+
+    void on_trie_clicked();
+
+    void on_prd_clicked();
+
+    void on_prm_clicked();
+
+    void on_calcul_clicked();
+
+    void on_OK_clicked();
+
 private:
     Ui::MainWindow *ui;
 
