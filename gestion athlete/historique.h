@@ -1,6 +1,6 @@
 #ifndef HISTORIQUE_H
 #define HISTORIQUE_H
-
+#include<QSqlQueryModel>
 
 class historique
 {
@@ -21,6 +21,7 @@ public:
 
 
      bool ajouterhis();
+   QSqlQueryModel* affichierhis();
 
 
 private:

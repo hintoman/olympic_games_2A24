@@ -13,8 +13,36 @@
 #include "historique.h"
 #include <QPieSeries>
 #include <QtCharts>
+#include<QtSvg/QSvgRenderer>
 
 
+#include <string>
+#include <vector>
+#include<QDirModel>
+#include <qrcode.hpp>
+
+#include <iostream>
+#include <fstream>
+#include <QtSvg/QSvgRenderer>
+#include "qrcode.hpp"
+
+
+#include<QSqlQuery>
+
+#include<QRegularExpression>
+
+
+#include <QPainter>
+
+#include <QSqlQueryModel>
+
+#include <QSystemTrayIcon>
+
+
+#include <QTextStream>
+
+#include<QDirModel>
+#include"notif.h"
 
 
 using namespace qrcodegen;
@@ -25,6 +53,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
   ui->le_id->setValidator(new QIntValidator(0,99999999, this));
     ui->tele->setValidator(new QIntValidator(0,99999999, this));
+    QRegularExpression rx1("\\b[A-Z._%+-]+@[A-Z.-]+\\.[A-Z]\\b",
+                                                      QRegularExpression::CaseInsensitiveOption);
+                            ui->le_nom->setValidator(new QRegularExpressionValidator(rx1, this));
+                            QRegularExpression rx2("\\b[A-Z._%+-]+@[A-Z.-]+\\.[A-Z]\\b",
+                                                          QRegularExpression::CaseInsensitiveOption);
+                            ui->le_prenom->setValidator(new QRegularExpressionValidator(rx2, this));
 
 
     ui->tab_athltes->setModel(A.affichier());
@@ -50,7 +84,10 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pb_Ajouter_clicked()
-{   int id=ui->le_id->text().toInt();
+{
+
+    Notification N;
+    int id=ui->le_id->text().toInt();
     int num_tel=ui->tele->text().toInt();
     QString age=ui->l_date->text();
     QString nom=ui->le_nom->text();
@@ -66,6 +103,7 @@ void MainWindow::on_pb_Ajouter_clicked()
      bool mail=A.Email_validation(Email);
      if(mail)
              {
+         N.notification_ajouter();
                  QMessageBox::information(nullptr, QObject::tr("ajout "),
                              QObject::tr("Email validee.\n"
                                          "Click Cancel to exit."), QMessageBox::Cancel);
@@ -84,6 +122,7 @@ void MainWindow::on_pb_Ajouter_clicked()
                                                     "Click Cancel to exit."), QMessageBox::Cancel);
             }
                               ui->tab_athltes->setModel(A.affichier());
+
 
          }
              else
@@ -111,10 +150,12 @@ void MainWindow::on_pb_Ajouter_clicked()
 }
 void MainWindow::on_pb_supprimer_clicked()
 {
+    Notification N;
     Athlete A1; A1.setid(ui->idS->text().toInt());
     bool test=A1.supprimer(A1.getid());
     QMessageBox msgBox;
     if(test){
+        N.notification_supprimer();
         msgBox.setText("supprission effectuée");
     ui->tab_athltes->setModel(A.affichier());}
     else
@@ -131,6 +172,7 @@ void MainWindow::on_pb_Aaffichier_clicked()
 
 void MainWindow::on_modifier_clicked()
 {
+    Notification N;
   int id=ui->le_id->text().toInt();
        int num_tel=ui->tele->text().toInt();
        QString age=ui->l_date->text();
@@ -142,6 +184,7 @@ void MainWindow::on_modifier_clicked()
        bool test=A.modifier();
        if(test)
        {
+           N.notification_modifier();
            QMessageBox::information(nullptr, QObject::tr("succes"),
                        QObject::tr("modif.\n"
                                    "Click Cancel to exit."), QMessageBox::Cancel);
@@ -222,6 +265,8 @@ void MainWindow::on_tab_athltes_doubleClicked(const QModelIndex &index)
 
 void MainWindow::on_modifier_pressed()
 {
+
+    Notification N;
     int id=ui->le_id->text().toInt();
          int num_tel=ui->tele->text().toInt();
          QString age=ui->l_date->text();
@@ -233,10 +278,13 @@ void MainWindow::on_modifier_pressed()
          bool test=A.modifier();
          if(test)
          {
+             N.notification_modifier();
              QMessageBox::information(nullptr, QObject::tr("succes"),
+
                          QObject::tr("modif.\n"
                                      "Click Cancel to exit."), QMessageBox::Cancel);
-             ui->tab_athltes->setModel(A.affichier());
+
+                                      ui->tab_athltes->setModel(A.affichier());
 
 
          }
@@ -297,6 +345,9 @@ void MainWindow::on_pb_chercher_2_clicked()
 void MainWindow::on_QRcodecom_clicked()
 {
 
+
+
+    /*
            //if (Athlete::currentSelectedAthlete == nullptr) return;
        //    if (Athlete::currentSelectedAthlete == NULL) return;
 
@@ -322,15 +373,53 @@ void MainWindow::on_QRcodecom_clicked()
                     }
                 }
                 im=im.scaled(200,200);
-                ui->qrcodecommande->setPixmap(QPixmap::fromImage(im));
+                ui->qrcodecommande->setPixmap(QPixmap::fromImage(im));*/
 }
 
 void MainWindow::on_QRcodecom_pressed()
 {
+
+   Athlete A;
+
+    if(ui->tab_athltes->currentIndex().row()==-1)
+               QMessageBox::information(nullptr, QObject::tr("Suppression"),
+                                        QObject::tr("Veuillez Choisir un animal du Tableau.\n"
+                                                    "Click Ok to exit."), QMessageBox::Ok);
+           else
+           {
+
+                               A.setid(ui->le_id ->text().toInt());
+                               A.setnom(ui->le_nom ->text());
+                               A.setprenom(ui->le_prenom ->text());
+                               A.setage(ui->l_date ->text());
+                               A.setEmail(ui->Email ->text());
+                            //   A.setnum_tel(ui->tele->text().toInt());
+
+
+
+                //int cin=ui->tab_athltes->model()->data(ui->tab_athltes->model()->index(ui->tab_athltes->currentIndex().row(),0)).toInt();
+
+                               QString  rawQr = "ID_ANIMAL:%1 Nom_ANIMAL:%2 TYPE_ANIMAL:%3 AGE_ANIMAL:%4 PAYS:%5 " ;
+                                  rawQr = rawQr.arg(A.getid()).arg(A.getnom()).arg(A.getprenom()).arg(A.getage()).arg(A.getEmail());
+                                  QrCode qr = QrCode::encodeText(rawQr.toUtf8().constData(), QrCode::Ecc::HIGH);
+               // const QrCode qr = QrCode::encodeText(std::to_string(cin).c_str(), QrCode::Ecc::LOW);
+                std::ofstream myfile;
+                myfile.open ("qrcode.svg") ;
+                myfile << qr.toSvgString(1);
+                myfile.close();
+                QSvgRenderer svgRenderer(QString("qrcode.svg"));
+                QPixmap pix( QSize(120, 120) );
+                QPainter pixPainter( &pix );
+                svgRenderer.render( &pixPainter );
+                ui->qrcodecommande->setPixmap(pix);
+           }
+
+
+    //////////////////////////://////////////////////////////////////////////////////
     //  if (Athlete::currentSelectedAthlete == nullptr) return;
    //   if (Athlete::currentSelectedAthlete == NULL) return;
 
-  QString rawQr = "ID:%1 Nom:%2 prenom:%3 age:%4";
+ /*QString rawQr = "ID:%1 Nom:%2 prenom:%3 age:%4";
 
        //   using namespace std ;
          //Athlete A1 =* Athlete::currentSelectedAthlete ;
@@ -352,9 +441,8 @@ void MainWindow::on_QRcodecom_pressed()
               }
           }
           im=im.scaled(200,200);
-          ui->qrcodecommande->setPixmap(QPixmap::fromImage(im));
+          ui->qrcodecommande->setPixmap(QPixmap::fromImage(im));*/
 }
-
 void MainWindow::on_pushButton_2_clicked()
 {
     QString filiter ="All File(*,*);; Text File(*.txt);;XML File(*.xml)";
@@ -514,3 +602,45 @@ void MainWindow::on_addhis_2_clicked()
                          charrtView->resize(1000,500);
                          charrtView->show();
 }
+
+void MainWindow::on_pushButton_2_pressed()
+{
+    QString filiter ="All File(*,*);; Text File(*.txt);;XML File(*.xml)";
+    QString file_name = QFileDialog::getOpenFileName(this,"open a file ","c://Desktop");
+  QFile file (file_name) ;
+  if(!file.open(QFile::WriteOnly | QFile::Text)){
+       QMessageBox::warning(this,"title","File not open");
+       QTextStream out(&file);
+       QString text = ui->plainTextEdit_2->toPlainText() ;
+       out<<text;
+       file.flush();
+       file.close();
+}}
+
+void MainWindow::on_pushButton_4_clicked()
+{//
+    historique h;
+    ui->tab_athltes_2->setModel(h.affichierhis());
+ /*   QString id=ui->le_id->text();
+  //     QString =ui->le_PC_typevoiture->text();
+       QSqlQuery findClient;
+       QString nom_client;
+       QSqlQuery findCar;
+       findClient.prepare("select GS_ATHÈTES.ID , histo.NBRPP ");
+       findClient.bindValue(":n", id);
+       findClient.exec();
+       findCar.prepare("select NBPARTICIPANT from GS_EVENT  ");
+       findCar.exec();
+       if (findClient.next() && findCar.next()) {*/
+
+ /* QSqlQueryModel* model=new QSqlQueryModel ;
+    QSqlQueryModel* model2=new QSqlQueryModel ;
+   // model->setQuery("SELECT     FROM GS_ATHÈTES");
+    model2->setQuery("SELECT    FROM GS_TERRAINS ");
+   // ui->tab_athltes_2->setModel(model);
+    ui->tab_athltes_2->setModel(model2);*/
+
+
+
+
+       }

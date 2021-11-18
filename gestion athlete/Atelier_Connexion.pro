@@ -12,6 +12,7 @@ QT += serialport
 QT += charts
 
 QT += printsupport
+QT += svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Atelier_Connexion
@@ -36,6 +37,7 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
+    notif.cpp \
     qrcode.cpp
 
 HEADERS += \
@@ -46,6 +48,7 @@ HEADERS += \
     historique.h \
         mainwindow.h \
     connection.h \
+    notif.h \
     qrcode.hpp
 
 FORMS += \

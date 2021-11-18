@@ -64,6 +64,10 @@ private slots:
 
     void on_addhis_2_clicked();
 
+    void on_pushButton_2_pressed();
+
+    void on_pushButton_4_clicked();
+
 private:
     Ui::MainWindow *ui;
     Athlete A;

@@ -17,7 +17,7 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>-10</x>
       <y>0</y>
       <width>961</width>
       <height>751</height>
@@ -35,7 +35,7 @@
      <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="iconSize">
      <size>
@@ -59,7 +59,7 @@
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
         <y>20</y>
         <width>941</width>
         <height>751</height>
@@ -326,8 +326,8 @@
       <widget class="Line" name="line_10">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>560</y>
+         <x>10</x>
+         <y>590</y>
          <width>111</width>
          <height>16</height>
         </rect>
@@ -346,7 +346,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>leinserer le  id </string>
+        <string/>
        </property>
       </widget>
       <widget class="QLineEdit" name="idS">
@@ -747,14 +747,37 @@
      <widget class="QPushButton" name="addhis_2">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>410</y>
+        <x>790</x>
+        <y>380</y>
         <width>93</width>
         <height>28</height>
        </rect>
       </property>
       <property name="text">
-       <string>hitorique</string>
+       <string>satistique</string>
+      </property>
+     </widget>
+     <widget class="QTableView" name="tab_athltes_2">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>20</y>
+        <width>511</width>
+        <height>351</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>380</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>historique</string>
       </property>
      </widget>
     </widget>

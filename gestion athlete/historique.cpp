@@ -45,3 +45,26 @@ bool historique::ajouterhis()
 
 
 }
+QSqlQueryModel* historique::affichierhis()
+{
+    QSqlQueryModel* model=new QSqlQueryModel ;
+   // QSqlQueryModel* model2=new QSqlQueryModel ;
+    Athlete A;
+    QSqlQuery query;
+
+
+
+     //  model->setQuery("SELECT  ID,NOM ,capacite, DUREE , LIEU   FROM  GS_ATHÈTES , EVENTSS ");
+          model->setQuery("SELECT capacite, DUREE , LIEU,* FROM  EVENTSS , GS_TERRAINS where EVEBTESS.ID = GS_ATHÈTES.ID ");
+
+
+
+
+
+
+
+  return model;
+
+
+}
+
