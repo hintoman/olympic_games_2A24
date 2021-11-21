@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::maps *ui;
-   // QWebEngineView *m_view;
+  //  QWebEngineView *m_view;
 
 };
 

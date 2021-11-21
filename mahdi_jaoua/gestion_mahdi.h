@@ -94,8 +94,26 @@ private slots:
 
     void on_actioncheck_map_triggered();
 
+    void on_suppression_t_clicked();
+
+    void on_modification_t_clicked();
+
+    void on_ajou_t_clicked();
+
+    void on_suppression_r_clicked();
+
+    void on_modification_r_clicked();
+
+    void on_ajout_r_clicked();
+
+
+    void sendMail();
+    void mailSent(QString);
+    void browse();
+
 private:
     Ui::gestion_mahdi *ui;
+    QStringList files;
     QString selected_terrain="",selected_reclamation="";
     int sel_col_terrain=-1,sel_col_reclamation=-1;
 };

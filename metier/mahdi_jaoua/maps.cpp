@@ -7,18 +7,12 @@ maps::maps(QWidget *parent) :
 {
   //  ui->setupUi(this);
  /*   setCentralWidget(m_view);
-
     QWebEnginePage *page = m_view->page();
-
     connect(page, &QWebEnginePage::featurePermissionRequested,
             [this, page](const QUrl &securityOrigin, QWebEnginePage::Feature feature) {
-
-
             page->setFeaturePermission(
                 securityOrigin, feature, QWebEnginePage::PermissionGrantedByUser);
-
     });
-
     page->load(QUrl(QStringLiteral("https://maps.google.com")));*/
 }
 

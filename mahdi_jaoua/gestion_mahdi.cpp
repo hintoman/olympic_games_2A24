@@ -7,6 +7,10 @@ gestion_mahdi::gestion_mahdi(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //for email tab
+    connect(ui->sendBtn, SIGNAL(clicked()),this, SLOT(sendMail()));
+    connect(ui->browseBtn, SIGNAL(clicked()), this, SLOT(browse()));
+
     //affichage contenu de la base
     show_tables();
 }
@@ -110,6 +114,28 @@ void gestion_mahdi::on_actionajout_terrain_triggered()
         show_tables();
 }
 
+
+void gestion_mahdi::on_ajou_t_clicked()
+{
+    //recuperation des donnees
+      QString s1=get_id_terrain();
+      QString s2=get_nom();
+      QString s3=get_lieu();
+      QString s4=get_etat();
+      int x=get_capacite();
+
+
+      //ajout
+      terrain s(s1,s2,s3,s4,x);
+      s.ajouter();
+
+      clear_form_terrain( );
+
+      //refresh du tableau (affichage)
+        show_tables();
+}
+
+
 //supression
 void gestion_mahdi::on_actionsuppression_terrain_triggered()
 {
@@ -119,6 +145,16 @@ void gestion_mahdi::on_actionsuppression_terrain_triggered()
  //refresh du tableau (affichage)
    show_tables();
 }
+
+void gestion_mahdi::on_suppression_t_clicked()
+{
+    terrain s;
+  s.supprimer(selected_terrain);
+
+ //refresh du tableau (affichage)
+   show_tables();
+}
+
 
 //get row
 void gestion_mahdi::on_tableau_terrain_clicked(const QModelIndex &index)
@@ -147,6 +183,28 @@ clear_form_terrain( );
     //refresh du tableau (affichage)
      show_tables();
 }
+
+
+void gestion_mahdi::on_modification_t_clicked()
+{
+    //recuperation des donnees
+    QString s1=selected_terrain;
+    QString s2=get_nom();
+    QString s3=get_lieu();
+    QString s4=get_etat();
+    int x=get_capacite();
+
+      //mofication
+      terrain s(selected_terrain,s2,s3,s4,x);
+      s.modifier(selected_terrain);
+
+clear_form_terrain( );
+
+    //refresh du tableau (affichage)
+     show_tables();
+}
+
+
 
 void gestion_mahdi::on_tableau_terrain_doubleClicked(const QModelIndex &index)
 {
@@ -289,6 +347,26 @@ void gestion_mahdi::on_actionajout_reclamation_triggered()
         show_tables();
 }
 
+
+void gestion_mahdi::on_ajout_r_clicked()
+{
+    //recuperation des donnees
+      QString s1=get_id_reclamation();
+      QString s2=get_description();
+      QString s3=get_mail();
+      QString s4=get_etat_reclamation();
+
+
+      //ajout
+      reclamation s(s1,s2,s3,s4);
+      s.ajouter();
+
+      clear_form_reclamation();
+
+      //refresh du tableau (affichage)
+        show_tables();
+}
+
 //supression
 void gestion_mahdi::on_actionsuppression_reclamation_triggered()
 {
@@ -298,6 +376,17 @@ void gestion_mahdi::on_actionsuppression_reclamation_triggered()
  //refresh du tableau (affichage)
    show_tables();
 }
+
+
+void gestion_mahdi::on_suppression_r_clicked()
+{
+    reclamation s;
+  s.supprimer(selected_reclamation);
+
+ //refresh du tableau (affichage)
+   show_tables();
+}
+
 
 //get row
 void gestion_mahdi::on_tableau_reclamation_clicked(const QModelIndex &index)
@@ -325,6 +414,26 @@ clear_form_reclamation() ;
     //refresh du tableau (affichage)
      show_tables();
 }
+
+
+void gestion_mahdi::on_modification_r_clicked()
+{
+    //recuperation des donnees
+    QString s1=selected_reclamation;
+    QString s2=get_description();
+    QString s3=get_mail();
+    QString s4=get_etat_reclamation();
+
+      //mofication
+      reclamation s(selected_reclamation,s2,s3,s4);
+      s.modifier(selected_reclamation);
+
+clear_form_reclamation() ;
+
+    //refresh du tableau (affichage)
+     show_tables();
+}
+
 
 void gestion_mahdi::on_tableau_reclamation_doubleClicked(const QModelIndex &index)
 {
@@ -367,11 +476,65 @@ void gestion_mahdi::on_rech_reclamation_textChanged(const QString &arg1)
 }
 
 
+
+
+
+
+
+
+
+//mailing
+void  gestion_mahdi::browse()
+{
+    files.clear();
+
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+
+    if (dialog.exec())
+        files = dialog.selectedFiles();
+
+    QString fileListString;
+    foreach(QString file, files)
+        fileListString.append( "\"" + QFileInfo(file).fileName() + "\" " );
+
+    ui->file->setText( fileListString );
+
+}
+void   gestion_mahdi::sendMail()
+{
+    Smtp* smtp = new Smtp("mahdi.jaoua@esprit.tn",ui->mail_pass->text(), "smtp.gmail.com");
+    connect(smtp, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+
+    if( !files.isEmpty() )
+        smtp->sendMail("mahdi.jaoua@esprit.tn", ui->rcpt->text() , ui->subject->text(),ui->msg->toPlainText(), files );
+    else
+        smtp->sendMail("mahdi.jaoua@esprit.tn",ui->rcpt->text() , ui->subject->text(),ui->msg->toPlainText());
+}
+void   gestion_mahdi::mailSent(QString status)
+{
+
+    if(status == "Message sent")
+        QMessageBox::warning( nullptr, tr( "Qt Simple SMTP client" ), tr( "Message sent!\n\n" ) );
+    ui->rcpt->clear();
+    ui->subject->clear();
+    ui->file->clear();
+    ui->msg->clear();
+    ui->mail_pass->clear();
+}
+
+
 //geolocalisation
+
 void gestion_mahdi::on_actioncheck_map_triggered()
 {
-/* maps *m;
+    /*
+maps *m;
 m=new maps();
 m->resize(1024, 768);
-m->show();*/
+m->show();
+*/
 }
+
+

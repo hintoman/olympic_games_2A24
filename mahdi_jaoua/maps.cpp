@@ -3,10 +3,10 @@
 
 maps::maps(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::maps)//, m_view(new QWebEngineView(this))
+    ui(new Ui::maps)//,m_view(new QWebEngineView(this))
 {
   //  ui->setupUi(this);
-    /*setCentralWidget(m_view);
+ /*   setCentralWidget(m_view);
 
     QWebEnginePage *page = m_view->page();
 

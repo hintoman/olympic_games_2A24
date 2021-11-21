@@ -257,6 +257,45 @@
        </rect>
       </property>
      </widget>
+     <widget class="QPushButton" name="ajou_t">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>390</y>
+        <width>121</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ajout</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="modification_t">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>390</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>modification</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="suppression_t">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>390</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>supprimer</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
@@ -437,6 +476,45 @@
        <string>Etat</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="ajout_r">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>410</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ajout</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="modification_r">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>410</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>modification</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="suppression_r">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>410</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>suppression</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -550,26 +628,6 @@
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionajout_terrain"/>
-   <addaction name="actionmodifier_terrain"/>
-   <addaction name="actionsuppression_terrain"/>
-   <addaction name="separator"/>
-   <addaction name="actionajout_reclamation"/>
-   <addaction name="actionmodifier_reclamation"/>
-   <addaction name="actionsuppression_reclamation"/>
-   <addaction name="separator"/>
-   <addaction name="actioncheck_map"/>
-  </widget>
   <action name="actionajout_terrain">
    <property name="text">
     <string>ajout_terrain</string>
