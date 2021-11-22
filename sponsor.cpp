@@ -1,59 +1,71 @@
+//ze have classe /methodes:ajout,supp,modi,afficha
 #include "sponsor.h"
 
 sponsor::sponsor()
 {
 
-    id="";
-    nom="";
-    prenom="";
-    mot_de_passe=0;
-    adresse_mail="";
-    date_de_naissance="";
-    genre="";
-
-
-}
-void sponsor::setid(QString n)
-{
-    id = n;
-}
-void sponsor::setnom(QString n)
-{
-    nom = n;
-}
-void  sponsor::setprenom(QString n)
-{
-    prenom = n;
-}
-void sponsor::set_adresse_mail(QString n)
-{
-    adresse_mail = n;
-}
-void  sponsor::setdate_de_naissance(QString n)
-{
-    date_de_naissance = n;
-}
-void  sponsor::set_genre(QString n)
-{
-    genre = n;
 }
 
-QString sponsor::get_id()
-{return id;}
+sponsor::sponsor(QString s1,QString s2,QString s3,QString s4, double x){
 
-QString  sponsor::get_nom()
-{return nom;}
+    id=s1;
+    nom=s2;
+    adresse=s3;
+    type=s4;
+    montant=x;
 
-QString  sponsor::get_prenom()
-{return prenom;}
+}
 
-QString  sponsor::get_genre()
-{return genre;}
 
-QString   sponsor::get_adresse_mail()
-{return adresse_mail;}
+bool sponsor::ajouter(){
 
-QString  sponsor::get_date_de_naissance()
-{return date_de_naissance;}
-    int  sponsor:: get_mot_de_passe()
-    {return mot_de_passe;}
+    QSqlQuery query;
+
+
+    query.prepare("INSERT INTO sponsors (ID,NOM,ADRESSE,TYPE,MONTANT) VALUES (:id,:nom,:adresse,:type,:montant)");
+
+    query.bindValue(":id", id);
+    query.bindValue(":nom",nom);
+    query.bindValue(":adresse",adresse);
+    query.bindValue(":type",type);
+    query.bindValue(":montant",montant);
+
+    return    query.exec();
+
+}
+
+bool sponsor::modifier(QString selected){
+
+    QSqlQuery query;
+
+
+    query.prepare(" UPDATE sponsors SET  TYPE=:type, NOM=:nom, ADRESSE=:adresse, MONTANT=:montant"
+                  " where ID= :id");
+    query.bindValue(":id", selected);
+    query.bindValue(":nom",nom);
+    query.bindValue(":adresse",adresse);
+    query.bindValue(":type",type);
+    query.bindValue(":montant",montant);
+
+
+    return    query.exec();
+
+}
+
+ QSqlQueryModel * sponsor::afficher(){
+
+     QSqlQueryModel * modal=new QSqlQueryModel();
+     modal->setQuery("SELECT * FROM sponsors");
+
+     return modal;
+
+ }
+  bool sponsor::supprimer(QString selected){
+
+      QSqlQuery query;
+      query.prepare("Delete from sponsors where ID = :id ");
+      query.bindValue(":id", selected);
+      return    query.exec();
+
+
+  }
