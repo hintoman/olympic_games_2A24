@@ -4,10 +4,15 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql \
+    quick
 QT += sql
 QT += core
+QT += serialport
+QT += charts
 
+QT += printsupport
+QT += svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Atelier_Connexion
@@ -27,15 +32,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    arduino.cpp \
     athlete.cpp \
+    historique.cpp \
+    historique1.cpp \
         main.cpp \
         mainwindow.cpp \
-    connection.cpp
+    connection.cpp \
+    notif.cpp \
+    qrcode.cpp
 
 HEADERS += \
+    ../khedma mnadhma barcha xd/QrCode.hpp \
+    ../khedma mnadhma barcha xd/QrCode.hpp \
+    ../khedma mnadhma barcha xd/QrCode.hpp \
+    arduino.h \
     athlete.h \
+    historique.h \
+    historique1.h \
         mainwindow.h \
-    connection.h
+    connection.h \
+    notif.h \
+    qrcode.hpp
 
 FORMS += \
         mainwindow.ui

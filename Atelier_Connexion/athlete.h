@@ -4,6 +4,15 @@
 #include<QString>
 #include<QRegularExpression>
 #include<QSqlQueryModel>
+#include <QSqlTableModel>
+#include<QtGui>
+#include<QDialog>
+#include <iostream>
+#include<QtCore>
+#include <QList>
+#include<QTableView>
+#include"qr.h"
+
 class Athlete
 {
 public:
@@ -27,11 +36,36 @@ public:
      QSqlQueryModel* affichier();
      bool supprimer(int);
      bool Email_validation(QString);
+     bool modifier();
+     QString printPDF();
+
+
+     QSqlQueryModel* chercher(QString);
+   //  QSqlTableModel modifier();
+     QSqlQueryModel * triid();
+     QSqlQueryModel * trinom();
+     QSqlQueryModel * tridate();
 
 
 
 
-private:
+       static QList<Athlete *> FindAll();
+       static Athlete* getAthleteById(int id);
+       static Athlete *currentSelectedAthlete;
+
+     static void dispatchList(QTableView * view);
+     static void updateListBySearchingMerchantName(QString namePattern,QTableView * view);
+     static Athlete* setCurrentSelectedAthlete(Athlete * m);
+
+
+
+
+
+
+
+
+
+     public:
     int id ,num_tel;
 
     QString nom,prenom,fliere,Email,age;
@@ -40,5 +74,6 @@ private:
 
 
 };
+
 
 #endif // ATHLETE_H
