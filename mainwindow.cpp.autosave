@@ -79,6 +79,7 @@ void MainWindow::update_label()  { //label arduino
     if(code.length()==4){
         if(code.compare("1234")==0){
             A.write_to_arduino("1");
+            
 
 
         }

@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += sql
+QT += charts serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,18 +26,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    arduino.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
+    mainwindow1.cpp \
+    qcustomplot.cpp \
     transaction.cpp
 
 HEADERS += \
+    arduino.h \
         mainwindow.h \
     connection.h \
+    mainwindow1.h \
+    qcustomplot.h \
     transaction.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+        mainwindow1.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
