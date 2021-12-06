@@ -32,3 +32,12 @@ void Notification::notification_modifier(){
     notifyIcon->showMessage("Gestion des Client ","un Visiteur est modifié",QSystemTrayIcon::Information,15000);
 
 }
+void Notification:: notification_ard()
+{
+
+    QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+
+   // notifyIcon->setIcon(QIcon(":/new/prefix1/MyResources/computer-icons-avatar-user-login-avatar.jpg"));
+    notifyIcon->show();
+    notifyIcon->showMessage("Gestion des Clients ","nouveau carte a ete detectee ",QSystemTrayIcon::Information,15000);
+}

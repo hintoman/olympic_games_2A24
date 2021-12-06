@@ -1,6 +1,6 @@
 #include "athlete.h"
 #include<QString>
-#include "mainwindow.h"
+#include "gestion_montasar.h"
 #include "ui_mainwindow.h"
 #include<QObject>
 #include<QMessageBox>

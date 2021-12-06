@@ -54,8 +54,8 @@ QSqlQueryModel* historique::affichierhis()
 
 
 
-     //  model->setQuery("SELECT  ID,NOM ,capacite, DUREE , LIEU   FROM  GS_ATHÈTES , EVENTSS ");
-          model->setQuery("SELECT capacite, DUREE , LIEU,* FROM  EVENTSS , GS_TERRAINS where EVEBTESS.ID = GS_ATHÈTES.ID ");
+       model->setQuery("SELECT  ID,NOM ,capacite, DUREE , LIEU   FROM  GS_ATHÈTES , EVENTSS ");
+         //  model->setQuery("SELECT capacite, DUREE , LIEU,* FROM  EVENTSS , GS_TERRAINS where EVEBTESS.ID = GS_ATHÈTES.ID ");
 
 
 
